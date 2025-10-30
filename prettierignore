@@ -1,0 +1,6 @@
+.next
+.gitignore
+package.json
+package-lock.json
+public
+next.config.ts
