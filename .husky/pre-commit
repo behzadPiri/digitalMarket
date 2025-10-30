@@ -1,0 +1,1 @@
+npn run format && npm run lint
