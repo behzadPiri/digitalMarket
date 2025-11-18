@@ -1,8 +1,11 @@
-export default function Home() {
-    return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+import Banner from '@/components/banner';
+import Welcome from '@/components/ui/welcome';
 
-            text
-        </div>
-    );
+export default function Home() {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Banner />
+      <Welcome />
+    </div>
+  );
 }

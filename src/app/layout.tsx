@@ -1,6 +1,14 @@
+import './globals.css';
+import Link from 'next/link';
+import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+import { MonitorSmartphone } from 'lucide-react';
+import { Toaster } from '@/components/ui/sonner';
+import { ClerkProvider } from '@clerk/nextjs';
+import Auth from '@/components/auth';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
+import CardDropDown from '@/components/cart';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -19,16 +27,56 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  ads,
+}: Readonly<{ children: ReactNode; ads: ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        elements: {
+          headerTitle: {
+            fontSize: 18,
+            color: 'blue',
+          },
+          formButtonPrimary: {
+            fontSize: 16,
+            backgroundColor: 'black',
+            '&:hover': {
+              backgroundColor: '#7812dd',
+            },
+          },
+        },
+      }}
+    >
+      <ReactQueryProvider>
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <main className="flex flex-col justify-between min-h-screen ">
+              <header className="fixed flex items-center w-full justify-between px-20 h-20 z-10 shadow-2xl bg-gray-200 ">
+                <div className="flex items-center gap-3">
+                  <MonitorSmartphone />
+                  <Link href="/" className="font-bold text-2xl">
+                    Digital Shopping
+                  </Link>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Auth />
+                  <CardDropDown />
+                </div>
+              </header>
+              <div className="px-20 mt-20">
+                {children}
+                <Toaster position="top-right" duration={4000} />
+              </div>
+              <div className="my-10 flex justify-center mx-auto">{ads}</div>
+              <footer className="w-full flex items-center justify-center h-10 bg-black text-white">
+                <p>&copy; dont copy</p>
+              </footer>
+            </main>
+          </body>
+        </html>
+      </ReactQueryProvider>
+    </ClerkProvider>
   );
 }
